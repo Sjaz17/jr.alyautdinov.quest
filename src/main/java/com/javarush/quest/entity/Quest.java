@@ -1,6 +1,5 @@
 package com.javarush.quest.entity;
 
-import com.javarush.quest.QuestServlet;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
