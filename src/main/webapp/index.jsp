@@ -23,8 +23,8 @@
 
     <p class="lead ">Далёкое будущее. Космический буксир транспортирует к Земле груз - обогатительный комплекс, предназначенный для
         переработки двадцати миллионов тонн руды. Ввиду значительной продолжительности полёта команда погружена в анабиоз, судно ведёт автопилот.
-        Когда автоматика пробуждает команду корабля, экипаж из 7-ми человек поначалу полагает, что рейс окончен, однако вскоре узнаёт, что они
-        находится на орбите неисследованной планеты JR-404.<br>Вы капитан этого корабля по имени:</p>
+        Когда автоматика пробуждает команду корабля, экипаж из семи человек поначалу полагает, что рейс окончен, однако вскоре узнаёт, что они
+        находятся на орбите неисследованной планеты JR-404.<br>Вы капитан этого корабля по имени:</p>
 </div>
 <section >
     <div class=" input-group mb-3">
@@ -32,7 +32,7 @@
         <form  action="controller-servlet">
             <div class="input-group mb-3">
             <input type="text" class="form-control " maxlength="10" name="name" placeholder="Только буквы"  aria-describedby="button-addon2" required pattern="[A-Za-zА-Яа-яЁё]+">
-            <button value="1L" name="chosen" type="submit" class="btn btn-outline-warning" id="button-addon2">Начать квест</button>
+            <button value="1" name="chosen" type="submit" class="btn btn-outline-warning" id="button-addon2">Начать квест</button>
                 </div>
         </form>
     </div>

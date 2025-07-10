@@ -1,13 +1,32 @@
 package com.javarush.quest.service;
 
-import com.javarush.quest.entity.Answer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javarush.quest.entity.Quest;
-import com.javarush.quest.repository.AnswerRepository;
-import com.javarush.quest.repository.QuestRepository;
+
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class QuestService {
-    QuestRepository questRepository = new QuestRepository();
-    AnswerRepository answerRepository = new AnswerRepository();
+    private Map<Integer,Quest> questions = new HashMap<>();
+
+    public QuestService(){
+        loadQuestions();
+    }
+
+    private void loadQuestions() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("questions.json");
+            QuestionList questionList = mapper.readValue(inputStream, QuestionList.class);
+
+            questionList.getQuestions().forEach(q -> questions.put(q.getId(), q));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public String getName(String playerName,Object name){
         if(name!=null){
@@ -15,22 +34,22 @@ public class QuestService {
         }
         return playerName;
     }
-    public Quest getQuest(Long chosen){
-        Quest quest = questRepository.getQuestById(chosen);
-        return quest;
+    public Quest getQuest(Integer chosen){
+
+        return questions.get(chosen);
     }
-    public int getStage(Long chosen){
-        if(questRepository.getQuestById(chosen).getText().equals("ПОЗДРАВЛЯЕМ!")||questRepository.getQuestById(chosen).getText().equals("ВЫ УВОЛЕНЫ!")){
+    public int getStage(Integer chosen){
+        if(questions.get(chosen).getText().equals("ПОЗДРАВЛЯЕМ!")||questions.get(chosen).getText().equals("ВЫ УВОЛЕНЫ!")){
             return 0;
         }else {
             return 1;
         }
     }
-    public int getCounter(Long chosen,Object questCounter){
+    public int getCounter(Integer chosen,Object questCounter){
         int counter=0;
         if(questCounter!=null){
             counter = (int) questCounter;
-            if (chosen.equals(1L)) {
+            if (chosen==1) {
                 counter++;
             }
         }else {
@@ -38,14 +57,19 @@ public class QuestService {
         }
         return counter;
     }
-    public int getSuccess(Long chosen,Object successCounter){
+    public int getSuccess(Integer chosen,Object successCounter){
         int success=0;
         if(successCounter!=null) {
             success= (int) successCounter;
-            if (questRepository.getQuestById(chosen).getText().equals("ПОЗДРАВЛЯЕМ!")) {
+            if (questions.get(chosen).getText().equals("ПОЗДРАВЛЯЕМ!")) {
                 success++;
             }
         }
         return success;
+    }
+    private static class QuestionList {
+        private List<Quest> questions;
+
+        public List<Quest> getQuestions() { return questions; }
     }
 }

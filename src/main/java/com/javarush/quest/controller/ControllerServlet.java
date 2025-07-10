@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet(name = "ControllerServlet",value = "/controller-servlet")
 public class ControllerServlet extends HttpServlet {
-    private Long chosen;
+    private Integer chosen;
     private Object questCounter;
     private int stage;
     private Object successCounter;
@@ -29,13 +29,13 @@ public class ControllerServlet extends HttpServlet {
         playerName=questService.getName(playerName,name);
         session.setAttribute("name",playerName);
         //Выдача квеста
-        chosen = Long.parseLong(request.getParameter("chosen").replace("L", ""));
+        chosen = Integer.valueOf(request.getParameter("chosen"));
         Quest quest =questService.getQuest(chosen);
         session.setAttribute("quest",quest);
         // Информация о стадии квеста
         stage = questService.getStage(chosen);
         session.setAttribute("stage",stage);
-        // Колличество прохождений
+        // Количество прохождений
         questCounter = session.getAttribute("questCounter");
         questCounter =questService.getCounter(chosen,questCounter);
         session.setAttribute("questCounter",questCounter);
